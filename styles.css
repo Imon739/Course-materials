@@ -1,60 +1,142 @@
+/* ====== Base Styles ====== */
 body {
-    font-family: Arial, sans-serif;
-    background: #eef2f7;
-    margin: 0;
-    padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #a3b2c4;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: #f3dada;
+  border-radius: 50px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(19, 1, 1, 0.1);
+}
+
+h1 {
+  text-align: center;
+}
+
+/* ====== Buttons ====== */
+.button {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background-color: #243954;
+  color: white;
+  padding: 10px;
+  border: none;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: transform 0.5s ease, box-shadow 0.3s ease;
+}
+
+.button:hover {
+  background-color: #3675c7;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ====== Sections and Course Items ====== */
+.section {
+  margin-bottom: 20px;
+}
+
+.course, .folder {
+  margin-left: 20px;
+  margin-top: 8px;
+}
+
+/* Course Button Styling */
+.course button {
+  background-color: #f1bbbb;
+  color: #000;
+  font-size: 15px;
+  padding: 8px 10px;
+  margin-bottom: 5px;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.course button:hover {
+  background-color: #a06262;
+  transform: translateX(3px);
+}
+
+/* Folder Links */
+.folder {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: slideFadeIn 0.3s ease-out;
+}
+
+.folder a {
+  display: inline-block;
+  text-decoration: none;
+  color: #064393;
+  background-color: #ccdde6;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 15px;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.folder a:hover {
+  background-color: #e0e0e0;
+  transform: translateX(5px);
+}
+
+/* ====== Animations ====== */
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  
-  .container {
-    max-width: 900px;
-    margin: auto;
-    background: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  h1 {
-    text-align: center;
-  }
-  
-  .section {
-    margin-bottom: 20px;
-  }
-  
-  .button {
-    display: block;
-    width: 100%;
-    text-align: left;
-    background-color: #1a73e8;
-    color: white;
-    padding: 10px;
-    border: none;
-    margin-top: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  .button:hover {
-    background-color: #155ab6;
-  }
-  
-  .course, .folder {
-    margin-left: 20px;
-    margin-top: 8px;
-  }
-  
-  .course button, .folder a {
-    background-color: #f1f3f4;
-    color: #000;
-    font-size: 15px;
-  }
-  
-  .folder a {
-    display: inline-block;
-    margin: 5px 0;
-    text-decoration: none;
-    color: #1a73e8;
-  }
-  
+}
+
+/* Optional: Smooth Collapse/Expand */
+.folder.collapsed {
+  max-height: 0;
+  overflow: visible;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+  transition: all 0.3s ease-out;
+}
+
+.folder.expanded {
+  max-height: 500px;
+  opacity: 1;
+  transition: all 0.3s ease-in;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 16px;
+  color: #555;
+  opacity: 0.8;
+  padding: 10px;
+}
+
+
+/* Optional: Pulse effect when active */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(26, 115, 232, 0.5); }
+  70% { box-shadow: 0 0 0 10px rgba(26, 115, 232, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(26, 115, 232, 0); }
+}
+
+.button.active {
+  animation: pulse 1s;
+}
