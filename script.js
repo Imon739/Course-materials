@@ -14,7 +14,7 @@ const materials = {
       "Object Oriented Programming Lab": [
             {name: "Assignments", url: "https://github.com/Imon739/Object-Oriented-Programming-Assignment"},
             {name: "Slide", url: "https://drive.google.com/drive/folders/11uA43YuIYGlTsQQM9VFY3OO6vZE2x0ju"},
-            {name: "Mid & Final Questions", url: "https://drive.google.com/drive/folders/1Ra4dEmLocHWeCYT1ZIpZKuKbBW9WmkPc"},
+            {name: "Mid & Final Questions", url: "https://drive.google.com/drive/folders/1G3WdH8OQTZwzpueWlg1XT4IjQnUbH7ek"},
             {name: "Mid solution", url: "https://github.com/Imon739/Object-Oriented-Programming_Mid_solve/tree/main/Lab%20Mid%20Solve"},
             {name: "Final solution", url: "https://github.com/Imon739/Object-Oriented-Programming_Final_Solve/tree/main/Lab%20Final%20solve"},
             {name: "Practice Problem Solution", url: "https://github.com/Imon739/Object-Oriented-Programming-Assignment/tree/main/Practice%20Problem%20solve"}
