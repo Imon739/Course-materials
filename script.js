@@ -1,3 +1,4 @@
+
 // Structure: trimester > course > files
 const materials = {
     "Spring 2024": {
@@ -142,4 +143,3 @@ const materials = {
     container.appendChild(trimesterBtn);
     container.appendChild(courseSection);
   }
-  
