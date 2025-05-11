@@ -1,4 +1,3 @@
-
 // Structure: trimester > course > files
 const materials = {
     "Spring 2024": {
@@ -96,6 +95,39 @@ const materials = {
         "Electronics Lab":[
           {name: "Lab Report", url: "https://drive.google.com/drive/folders/1ya68Alry0HP15_sHGqBx9mJ-JEsiRtk3"}
         ]
+    },
+	"Spring 2025":{
+      "Artificial Intelligence":[
+            {name: "Assignments", url: "https://drive.google.com/drive/folders/1LMk5xj8hdpla2lzblQ0ZMuSogb-5Cw5F"},
+            {name: "Slide", url: "https://drive.google.com/drive/folders/1mNI1ism5Jg4TuGDXPEpq03B0y9nNWixd"},
+            {name: "Mid materials", url: "https://drive.google.com/drive/folders/1AuBGSkoJSRpwLHsVtkqFEJ4FkXVQMrsJ"},
+            {name: "Final materials", url: "https://drive.google.com/drive/folders/1KIgUsswT62YBlBzVKTpRMXwqrjEAmXqa"},
+            {name: "Hand Note", url: "https://drive.google.com/drive/folders/1nJ7TwjHQ5Lfo6GDysz6W5hhH2eIzc0LT"},
+            {name: "Quiz", url: "https://drive.google.com/drive/folders/1ki9F4DILcPI4TZVGwHV4zktkQNcVx63Z"},
+            {name: "Necessary Books", url: "https://drive.google.com/drive/folders/19kD9JLPpeTxhv81KUZia3_Nmzm0e4JNr"}
+      ],
+      "Computer Networks":[
+            {name: "Assignments", url: "https://drive.google.com/drive/folders/1WyKJ0LSo-ngS1QoXM6GhshEYQXgxeMKp"},
+            {name: "Slide", url: "https://drive.google.com/drive/folders/1U8ha3YgTZHWYwWApSu9yuA_xaJi3QLi3"},
+            {name: "Mid materials", url: "https://drive.google.com/drive/folders/1yM7bRDFIH6jcxAhgneCQ2lYwIfSqdkhn"},
+            {name: "Final materials", url: "https://drive.google.com/drive/folders/1uea6wyJx_d_MsAvTbahSf88VhC6SzEI8"},
+            {name: "Hand Note", url: "https://drive.google.com/drive/folders/1GsuAQHPQj1Esqfrdh73pt73HYYAcEwJN"},
+            {name: "Quiz", url: "https://drive.google.com/drive/folders/1NSH581mHzqJfM0e8v1rwuAUFUELmYbIT"}
+      ],
+      "Computer Networks Lab":[
+            {name: "Assignments", url: "https://drive.google.com/drive/folders/15BvE1BKJ3tqwYqLhX7DMeXGUz6khGuaW"},
+            {name: "Slide", url: "https://drive.google.com/drive/folders/1Bv2uJysRX2p_TPxaLyXRFiiOIVRYYavD"},
+            {name: "Mid & Final Solve", url: "https://drive.google.com/drive/folders/1vd655T2EnHmIh1H4SsvpuXtqtyKPf09e"},
+            {name: "Lab Practices", url: "https://drive.google.com/drive/folders/1PByzcuZS0F1yTE-85PqGNdTA---07dca"}
+      ],
+      "Coordinate Geometry and Vector Analysis":[
+            {name: "Assignments", url: "https://drive.google.com/drive/folders/1ynq0dYKQsPB9dMym7ccqAbEoOXuG4CnD"},
+            {name: "Mid materials", url: "https://drive.google.com/drive/folders/10A-Hxp1kXOflAfpbpvaElMcMYjGUjyYp"},
+            {name: "Final materials", url: "https://drive.google.com/drive/folders/1kEoSuSTt91-GmIyTfPV1BQIw2aN-N8pl"},
+            {name: "Hand Note", url: "https://drive.google.com/drive/folders/1xpunlU7KdBczgMI3eS3AUwclsuv1clMn"},
+            {name: "Quiz", url: "https://drive.google.com/drive/folders/1DuGO9zZNMPTF-l-E6KyKbnjWnsCbEbQc"},
+            {name: "Necessary Books", url: "https://drive.google.com/drive/folders/1yjqynFMVqkGJ9DJuRNk_WOAVcEUmiPZb"}
+      ]
     }
   };
   
