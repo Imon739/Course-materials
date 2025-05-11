@@ -3,7 +3,7 @@ body {
   font-family: Arial, sans-serif;
   background: #a3b2c4;
   margin: 0;
-  padding: 20px;
+  padding: 30px;
 }
 
 .container {
@@ -37,7 +37,7 @@ h1 {
 
 .button:hover {
   background-color: #3675c7;
-  transform: scale(1.05);
+  transform: scale(1.01);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -88,7 +88,7 @@ h1 {
 }
 
 .folder a:hover {
-  background-color: #e0e0e0;
+  background-color: #7c8db6;
   transform: translateX(5px);
 }
 
@@ -107,7 +107,7 @@ h1 {
 /* Optional: Smooth Collapse/Expand */
 .folder.collapsed {
   max-height: 0;
-  overflow: visible;
+  overflow: clip;
   padding: 0;
   margin: 0;
   opacity: 0;
@@ -122,9 +122,9 @@ h1 {
 
 .footer {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 100px;
   font-size: 16px;
-  color: #555;
+  color: #3b0101;
   opacity: 0.8;
   padding: 10px;
 }
