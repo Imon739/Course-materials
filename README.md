@@ -1,4 +1,6 @@
-##***📚 Course Materials – Trimester-wise***(materials.jpg)
+***📚 Course Materials – Trimester-wise***
+
+![course materials](materials.jpg)
 
 A structured website to access trimester-wise course materials from [United International University (UIU)](https://www.uiu.ac.bd/)
 
