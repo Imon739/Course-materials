@@ -1,5 +1,49 @@
 // Structure: trimester > course > files
 const materials = {
+    "Fall 2023": {
+      "Digital Logic Design": [
+            {name: "Assignments", url: "https://drive.google.com/drive/folders/1WobbBuG5NcNoFLBMcrx3FIeG9d-_tH76"},
+            {name: "Slide", url: "https://drive.google.com/drive/folders/1MFjpNJICC2qj-WSMeTBFUT_tgjM22u6u"},
+            {name: "Mid materials", url: "https://drive.google.com/drive/folders/1Lp3yECXztfqxKAYRl6YWWv53CxlsVVBP"},
+            {name: "Final materials", url: "https://drive.google.com/drive/folders/1HnIJwmAiQDpWobUMeKh-ELrKSo9xLdWw"},
+            {name: "Hand Note", url: "https://drive.google.com/drive/folders/1fRxFQ6L_e_vYgqiPSOXvNRHQYsdzpiJp"},
+            {name: "Quiz", url: "https://drive.google.com/drive/folders/1K2Cyu49UjwQP_YLPJXyXe7_eKkmV_ifx"},
+	          {name: "Necessary Books", url: "https://drive.google.com/drive/folders/15u7SafUWzBpwidbjUzud1MzmgO7U4fwR"},
+            {name: "Practice Problems", url: "https://drive.google.com/drive/folders/1dsMJ9FD3L9lgl2Fqcw-o1gMNh3KUDDOm"}
+      ],
+      "Digital Logic Design Lab": [
+          {name: "Slide", url: "https://drive.google.com/drive/folders/1s6EKb0QWRHV-L54gybWQGk_Xfc-qQj8p"},
+          {name: "Quiz", url: "https://drive.google.com/drive/folders/1egwfubQddUu9X5R1QqTJt5g7uFA4MkqS"},
+          {name: "Final Questions", url: "https://drive.google.com/drive/folders/1roxNFdVQxv25yvMtulKp8S-w1qnnV1D3"},
+          {name: "Logisim sample", url: "https://drive.google.com/drive/folders/1OuduaoQlnWsbtcm3wIuTOIpVeMHVNQsg"},
+          {name: "Sample report", url: "https://drive.google.com/drive/folders/1ko4ntighu7GeDD7aHfpNaqkDzjs-xKeE"},
+          {name: "Lab report", url: "https://drive.google.com/drive/folders/1NRGQZOnEKDkqJVGfmX3I0PGGvjdXWdrf"}
+      ],
+      "Physics": [
+            {name: "Assignments", url: "https://drive.google.com/drive/folders/1NdHNeUMszpoPyIuTURW14zDHaQe780x9"},
+            {name: "Slide", url: "https://drive.google.com/drive/folders/1Fu9w8OTm6M33BoP-qjriSjO0jMWeELsj"},
+            {name: "Mid materials", url: "https://drive.google.com/drive/u/0/folders/1v0sYC5jJ9KDb__AYcmAK5Fv__oyW4k2I"},
+            {name: "Final materials", url: "https://drive.google.com/drive/u/0/folders/1qEoY31uQt2jGkFJoxzqWRNORBzVkA7-u"},
+            {name: "Hand Note", url: "https://drive.google.com/drive/folders/1pOK41TqXjPoJFKZvn2iSTfAFLvx3JEqe"},
+            {name: "Quiz", url: "https://drive.google.com/drive/folders/1UHzYQEegZ9OIth3D1kAjKfXttfGpMAYI"},				
+    	      {name: "Necessary Books", url: "https://drive.google.com/drive/folders/13B6B_CT_60dME4TKSbyprlZy2ZuvSgk5"}
+      ],
+      "Physics Lab": [
+          {name: "Quiz", url: "https://drive.google.com/drive/folders/1prM1yCqCi-0r_l3KvbH-qhbcI7XxdVgP"},
+          {name: "Final Question", url: "https://drive.google.com/drive/folders/1KeSiRsKzSp5zBAnECIylywPbdDI-sqhS"},
+          {name: "Necessary Books",url: "https://drive.google.com/drive/folders/1J3cyCB8zXcI1kAEldeJvnoUiq72cNprW"},
+          {name: "Sample report", url: "https://drive.google.com/drive/folders/15aQ5ZPsTrKkulvf2sAVBbD6SZgMIqNSs"},
+          {name: "Lab report", url: "https://drive.google.com/drive/folders/1ogJjdA7cXj5VjGsRA8v39LQmc8zN9jyO"}
+      ],
+      "Calculas & Linear Algebra": [
+            {name: "Assignments", url: "https://drive.google.com/drive/folders/1tTIzsS7X0LwNtbKRmVWO9E_xngK5W139"},
+            {name: "Mid materials", url: "https://drive.google.com/drive/folders/1vxtQfx7jry5ZZWaqBor5zDvJCfGr6BPL"},
+            {name: "Final materials", url: "https://drive.google.com/drive/folders/1WH-z_DAd1W8hExbTWbb0StHRaslzVdFE"},
+            {name: "Hand Note", url: "https://drive.google.com/drive/folders/1v48InFFF821nqYr7mnyKm6DZ_EtGHXpS"},
+            {name: "Quiz", url: "https://drive.google.com/drive/folders/1qS-IR_b69d_oRWZR1CPh2UlSp2daHY6l"},
+	          {name: "Necessary Books", url: "https://drive.google.com/drive/folders/1cWWFhvPQ30V-d3d18Xx2e_pd5yQaTab6"}
+      ]
+    },
     "Spring 2024": {
       "Object Oriented Programming": [
             {name: "Slide", url: "https://drive.google.com/drive/folders/1JRWJXjjL2kpWFH8VG2NFxOVp5yMf67FC"},
