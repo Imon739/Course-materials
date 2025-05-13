@@ -1,5 +1,62 @@
 // Structure: trimester > course > files
 const materials = {
+   "Spring 2023": {
+      "Discrete Mathematics": [
+            {name: "Slide", url: "https://drive.google.com/drive/folders/1zyMFO7KbM_27r6B_tGq7VFu31DqdNbyW"},
+            {name: "Mid materials", url: "https://drive.google.com/drive/folders/1ttDE6YR4rYtSpf8KCErgLgyhWRQU9NzH"},
+            {name: "Final materials", url: "https://drive.google.com/drive/folders/1omFcHmxVEzNwzS6UXc4TnxpkJVqhKx_2"},
+	      {name: "Necessary Books", url: "https://drive.google.com/drive/folders/11zQz8mgBp2jf-QW-aGKWxOtWhyAilttn"}        
+      ],
+      "History of the Emergence of Bangladesh": [
+            {name: "Slide", url: "https://drive.google.com/drive/folders/1YLW1KIJoIUfLuk65qkp5S-zyozIYLEqQ"},
+            {name: "Mid materials", url: "https://drive.google.com/drive/folders/12Xjo6EFkgqa5NYfFEnnkd4kczV3uQGAT"},
+            {name: "Final materials", url: "https://drive.google.com/drive/folders/1bGpf9McL8f8_zh88lQoMrj-4STc7EsMi"}      
+
+      ],
+      "Introduction to Computer Systems": [
+            {name: "Slide", url: "https://drive.google.com/drive/folders/1NVy75AW6frc8V141A2vzE8RruSGh4QSG"},
+            {name: "Mid materials", url: "https://drive.google.com/drive/folders/1ixEJOyJnuoRfFch4pF2Bi2zWpw7k72NR"},
+            {name: "Final materials", url: "https://docs.google.com/document/d/1U9n7gKS8nCh43FpE2JJPIF4pD34NcMXr/edit"}
+      ],
+      "English I": [      
+      ]
+      },
+    "Summer 2023": {
+      "Structured Programming Language": [
+            {name: "Assignments", url: "https://drive.google.com/drive/folders/1V8ZNKfI_1q50XNiFoADOstX_THSkKI0-"},
+            {name: "Slide", url: "https://drive.google.com/drive/folders/1qiGJL6w8XzWI3JSkctFwOA_PzM21Wena"},
+            {name: "Mid materials", url: "https://drive.google.com/drive/folders/1zAWoV6MizjhgYJCErJ4EHZiBruZSQ4ry"},
+            {name: "Mid solve", url: "https://github.com/Imon739/Structure_Programing_Language/tree/main/Mid%20Que%20Solve"},
+            {name: "Final materials", url: "https://drive.google.com/drive/folders/1pW2pZLRxr-Rd6zElwFw9jJBrLje0JCDN"},
+            {name: "Final solve", url: "https://github.com/Imon739/Structure_Programing_Language/tree/main/Final%20Que%20solve"},
+            {name: "Quiz", url: "https://drive.google.com/drive/folders/1tbqMctBI3oYzly3tEsqNgD3vFz4buJZe"},
+	      {name: "Problem Set", url: "https://drive.google.com/drive/folders/1SKa1NWhvQrWPNSzBvQkzENcIbEtSDwrA"},
+            {name: "Solution <Function>", url: "https://github.com/Imon739/Function_prb_set"},
+            {name: "Solution <String>", url: "https://github.com/Imon739/String_prb_set"}        
+
+      ],
+      "Structured Programming Language Lab": [
+            {name: "Practice", url: "https://github.com/Imon739/Structure_Programing_Language/tree/main/Practice"},
+            {name: "Topic wise sample", url: "https://github.com/Imon739/Structure_Programing_Language/tree/main/Topics"},
+            {name: "Final Questions", url: "https://drive.google.com/drive/u/0/folders/1K4yR-S0HhTISXmMbHOFjTkf8lZmCVO2n"},
+            {name: "solutions", url: "https://github.com/Imon739/Structure_Programing_Language/tree/main/Lab"}    
+
+      ],
+      "Fundamental Calculas": [
+            {name: "Assignments", url: "https://drive.google.com/drive/folders/1Da_F7eJAz-_7QmMmWkjzvwpY9ww_VHGy"},
+            {name: "Mid materials", url: "https://drive.google.com/drive/folders/1BTf5AYukbC30pgE2Byep0w3whd2-DUM_"},
+            {name: "Final materials", url: "https://drive.google.com/drive/folders/13wt7Rjv56RpHvuywae4YRLkWFZmT4leS"},
+            {name: "Hand Note", url: "https://drive.google.com/drive/folders/1FhHVD04-FzdxvF_wxvN_1z8KriDZdfQ3"},
+            {name: "Quiz", url: "https://drive.google.com/drive/folders/18mDFXtcOCGE1JzBrbA45L3d0gxWk9b4n"},
+	      {name: "Necessary Books", url: "https://drive.google.com/drive/folders/1yjqynFMVqkGJ9DJuRNk_WOAVcEUmiPZb"}  
+      ],
+      "English II": [
+            {name: "Mid materials", url: "https://drive.google.com/drive/folders/1_RR1Rtr4kj5xzVxNZ8HyZMHD5ZnE9Krp"},
+            {name: "Final materials", url: "https://drive.google.com/drive/folders/1Nr9tfB1Jlx7embfioMF4-TS5mlOOeC0h"},
+	      {name: "Necessary Books", url: "https://drive.google.com/drive/folders/1zmSVJE8ZNlHv5YgSns-uCv-3OFvoj5X6"}        
+            
+      ]
+      },
     "Fall 2023": {
       "Digital Logic Design": [
             {name: "Assignments", url: "https://drive.google.com/drive/folders/1WobbBuG5NcNoFLBMcrx3FIeG9d-_tH76"},
