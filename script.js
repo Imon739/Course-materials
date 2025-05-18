@@ -1,4 +1,3 @@
-// Structure: trimester > course > files
 const materials = {
    "Spring 2023": {
       "Discrete Mathematics": [
@@ -196,8 +195,8 @@ const materials = {
         "Electronics Lab":[
           {name: "Lab Report", url: "https://drive.google.com/drive/folders/1ya68Alry0HP15_sHGqBx9mJ-JEsiRtk3"}
         ]
-    },
-	"Spring 2025":{
+    },    
+    "Spring 2025":{
       "Artificial Intelligence":[
             {name: "Assignments", url: "https://drive.google.com/drive/folders/1LMk5xj8hdpla2lzblQ0ZMuSogb-5Cw5F"},
             {name: "Slide", url: "https://drive.google.com/drive/folders/1mNI1ism5Jg4TuGDXPEpq03B0y9nNWixd"},
@@ -232,47 +231,61 @@ const materials = {
     }
   };
   
-  const container = document.getElementById("trimesterContainer");
-  
-  for (let trimester in materials) {
-    const trimesterBtn = document.createElement("button");
-    trimesterBtn.className = "button";
-    trimesterBtn.textContent = trimester;
-  
-    const courseSection = document.createElement("div");
-    courseSection.className = "section course";
-    courseSection.style.display = "none";
-  
-    trimesterBtn.addEventListener("click", () => {
-      courseSection.style.display = courseSection.style.display === "none" ? "block" : "none";
+const container = document.getElementById("trimesterContainer");
+
+for (let trimester in materials) {
+  const trimesterBtn = document.createElement("button");
+  trimesterBtn.className = "button";
+  trimesterBtn.textContent = trimester;
+
+  const courseSection = document.createElement("div");
+  courseSection.className = "section course";
+  courseSection.style.display = "none";
+
+  trimesterBtn.addEventListener("click", () => {
+    const allSections = document.querySelectorAll(".section.course");
+    allSections.forEach(section => {
+      section.style.display = "none";
     });
-  
-    for (let course in materials[trimester]) {
-      const courseBtn = document.createElement("button");
-      courseBtn.className = "button";
-      courseBtn.textContent = course;
-  
-      const folderDiv = document.createElement("div");
-      folderDiv.className = "section folder";
-      folderDiv.style.display = "none";
-  
-      courseBtn.addEventListener("click", () => {
-        folderDiv.style.display = folderDiv.style.display === "none" ? "block" : "none";
+
+    courseSection.style.display =
+      courseSection.style.display === "none" ? "block" : "none";
+  });
+
+  for (let course in materials[trimester]) {
+    const courseBtn = document.createElement("button");
+    courseBtn.className = "button";
+    courseBtn.textContent = course;
+
+    const folderDiv = document.createElement("div");
+    folderDiv.className = "section folder";
+    folderDiv.style.display = "none";
+
+    courseBtn.addEventListener("click", () => {
+      const allFolders = courseSection.querySelectorAll(".folder");
+      allFolders.forEach(folder => {
+        if (folder !== folderDiv) {
+          folder.style.display = "none";
+        }
       });
-  
-      materials[trimester][course].forEach(item => {
-        const a = document.createElement("a");
-        a.href = item.url;
-        a.target = "_blank";
-        a.textContent = item.name;
-        folderDiv.appendChild(a);
-        folderDiv.appendChild(document.createElement("br"));
-      });
-  
-      courseSection.appendChild(courseBtn);
-      courseSection.appendChild(folderDiv);
-    }
-  
-    container.appendChild(trimesterBtn);
-    container.appendChild(courseSection);
+
+      folderDiv.style.display =
+        folderDiv.style.display === "none" ? "block" : "none";
+    });
+
+    materials[trimester][course].forEach(item => {
+      const a = document.createElement("a");
+      a.href = item.url;
+      a.target = "_blank";
+      a.textContent = item.name;
+      folderDiv.appendChild(a);
+      folderDiv.appendChild(document.createElement("br"));
+    });
+
+    courseSection.appendChild(courseBtn);
+    courseSection.appendChild(folderDiv);
   }
+
+  container.appendChild(trimesterBtn);
+  container.appendChild(courseSection);
+}
