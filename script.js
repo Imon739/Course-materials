@@ -1,3 +1,4 @@
+// Structure: trimester > course > files
 const materials = {
    "Spring 2023": {
       "Discrete Mathematics": [
@@ -243,13 +244,14 @@ for (let trimester in materials) {
   courseSection.style.display = "none";
 
   trimesterBtn.addEventListener("click", () => {
+    const isCurrentlyVisible = courseSection.style.display === "block";
+
     const allSections = document.querySelectorAll(".section.course");
     allSections.forEach(section => {
       section.style.display = "none";
     });
 
-    courseSection.style.display =
-      courseSection.style.display === "none" ? "block" : "none";
+    courseSection.style.display = isCurrentlyVisible ? "none" : "block";
   });
 
   for (let course in materials[trimester]) {
@@ -262,15 +264,14 @@ for (let trimester in materials) {
     folderDiv.style.display = "none";
 
     courseBtn.addEventListener("click", () => {
+      const isOpen = folderDiv.style.display === "block";
+
       const allFolders = courseSection.querySelectorAll(".folder");
       allFolders.forEach(folder => {
-        if (folder !== folderDiv) {
-          folder.style.display = "none";
-        }
+        folder.style.display = "none";
       });
 
-      folderDiv.style.display =
-        folderDiv.style.display === "none" ? "block" : "none";
+      folderDiv.style.display = isOpen ? "none" : "block";
     });
 
     materials[trimester][course].forEach(item => {
