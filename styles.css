@@ -1,6 +1,7 @@
+/* ====== Base Styles ====== */
 body {
   font-family: Daytona, sans-serif;
-  background: linear-gradient(to left,#131754, #19386e);
+  background: linear-gradient(to left, #131754, #19386e);
   margin: 0;
   padding: 30px;
   position: relative;
@@ -13,91 +14,84 @@ body::after {
   position: absolute;
   width: 150px;
   height: 150px;
-  background: rgb(255, 111, 0);
+  background: rgba(255, 111, 0, 0.3);
   border-radius: 50%;
-  opacity: 0.3;
   z-index: 0;
-  animation-duration: 20s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
+  animation: moveCircle1 20s ease-in-out infinite;
+}
+
+body::after {
+  animation-name: moveCircle2;
+  bottom: 10%;
+  right: -10%;
+  top: auto;
+  left: auto;
 }
 
 body::before {
   top: 10%;
   left: -10%;
-  animation-name: moveCircle1;
-}
-
-body::after {
-  bottom: 10%;
-  right: -10%;
-  animation-name: moveCircle2;
 }
 
 @keyframes moveCircle1 {
-  0% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(100px, 50px);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(100px, 50px); }
 }
 
 @keyframes moveCircle2 {
-  0% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(-80px, -60px);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-80px, -60px); }
 }
 
-.container {
+.container, .extra-resources {
   position: relative;
   z-index: 1;
   max-width: 900px;
-  margin: auto;
-  background: linear-gradient(to bottom,rgb(255, 98, 0), rgb(236, 168, 105));
+  margin: 40px auto 0;
+  background: linear-gradient(to bottom, rgb(255, 98, 0), rgb(236, 168, 105));
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 10px rgba(209, 143, 21, 0.774);
 }
 
-h1 {
+h1, .extra-resources h2 {
   text-align: center;
   color: white;
 }
 
-.button {
+.extra-resources {
+  background: linear-gradient(to bottom, #21adea, #ac8a56);
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
+  border-radius: 10px;
+}
+
+.button, .course button, .resource-button {
   display: block;
   width: 100%;
   text-align: center;
-  background: linear-gradient(to left, #86b7dd, #1bc7d3);
-  color: black;
   padding: 10px;
   border: none;
-  margin-top: 10px;
-  cursor: pointer;
   border-radius: 5px;
   font-size: 16px;
+  cursor: pointer;
   transition: transform 0.5s ease, box-shadow 0.3s ease;
 }
 
-.button:hover {
-  background: linear-gradient(to bottom, #0d78cf84, #4d8cdf);
-  transform: scale(1.01);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.button {
+  background: linear-gradient(to left, #86b7dd, #1bc7d3);
+  color: black;
+  margin-top: 10px;
 }
 
-.section {
-  margin-bottom: 20px;
-  color: white;
+.button:hover {
+  background: linear-gradient(to bottom, #5f7f9984, #5d4771);
+  transform: scale(1.01);
+  box-shadow: 0 6px 15px rgba(225, 159, 159, 0.801);
+}
+
+.button.active {
+  animation: pulse 1s;
 }
 
 .course, .folder {
@@ -111,9 +105,8 @@ h1 {
   font-size: 15px;
   padding: 8px 10px;
   margin-bottom: 5px;
-  border: none;
   border-radius: 6px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s, transform 0.2s;
 }
 
 .course button:hover {
@@ -136,24 +129,23 @@ h1 {
   padding: 8px 12px;
   border-radius: 10px;
   font-size: 15px;
-  transition: transform 0.2s ease, background-color 0.3s ease;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
 
-.folder a:hover {
-  background: linear-gradient(to right, #bdcee390, #bdcee390);
-  transform: translateX(5px);
+.folder a:hover, .resource-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(237, 109, 109, 0.801);
 }
 
-/* ====== Animations ====== */
-@keyframes slideFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.resource-button {
+  display: inline-block;
+  width: auto;
+  background: linear-gradient(to right, #ff82cd, #ffb74d);
+  color: #3e2723;
+  margin: 10px;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
 }
 
 .folder.collapsed {
@@ -171,56 +163,21 @@ h1 {
   transition: all 0.3s ease-in;
 }
 
-.extra-resources {
-  max-width: 900px;
-  margin: auto;
-  margin-top: 40px;
-  text-align: center;
-  background: linear-gradient(to bottom, #21adea, #ac8a56);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
-  z-index: 1;
-  position: relative;
-}
-
-.extra-resources h2 {
-  color: #4e342e;
-  margin-bottom: 20px;
-}
-
-.resource-button {
-  display: inline-block;
-  background: linear-gradient(to right, #ff82cd, #ffb74d);
-  color: #3e2723;
-  padding: 10px 18px;
-  margin: 10px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.resource-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 15px rgba(237, 109, 109, 0.801);
-}
-
 .footer {
   text-align: center;
   margin-top: 5px;
   font-size: 15px;
   color: brown;
-  opacity: 1;
   padding: 50px;
+}
+
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes pulse {
   0% { box-shadow: 0 0 0 0 rgba(255, 165, 0, 0.5); }
   70% { box-shadow: 0 0 0 10px rgba(255, 165, 0, 0); }
   100% { box-shadow: 0 0 0 0 rgba(255, 165, 0, 0); }
-}
-
-.button.active {
-  animation: pulse 1s;
 }
