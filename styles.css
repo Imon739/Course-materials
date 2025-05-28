@@ -1,6 +1,6 @@
 body {
   font-family: Daytona, sans-serif;
-  background: linear-gradient(to left, #131754, #19386e);
+  background: linear-gradient(to bottom, #0b39b7, #0b1932);
   margin: 0;
   padding: 30px;
   position: relative;
@@ -50,7 +50,7 @@ body::before {
   background: linear-gradient(to bottom, rgb(255, 98, 0), rgb(236, 168, 105));
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3); 
+  box-shadow: 0 4px 12px rgba(255, 94, 0, 0.559); /* Updated to match .extra-resources */
 }
 
 .extra-resources {
@@ -67,7 +67,7 @@ body::before {
 
 h1, .extra-resources h2 {
   text-align: center;
-  color: white;
+  color: black;
 }
 
 .button, .course button, .resource-button {
@@ -83,15 +83,14 @@ h1, .extra-resources h2 {
 }
 
 .button {
-  background: linear-gradient(to left, #86b7dd, #1bc7d3);
+  background: linear-gradient(to left, #5279d4, #27b4be);
   color: black;
   margin-top: 10px;
 }
 
 .button:hover {
-  background: linear-gradient(to bottom, #5f7f9984, #5d4771);
   transform: scale(1.01);
-  box-shadow: 0 6px 15px rgba(225, 159, 159, 0.801);
+  box-shadow: 0 6px 15px rgba(14, 37, 85, 0.801);
 }
 
 .button.active {
@@ -129,7 +128,7 @@ h1, .extra-resources h2 {
   display: inline-table;
   text-decoration: none;
   color: #064393;
-  background: linear-gradient(to bottom, #c4e2f1, #e6f1f9);
+  background: linear-gradient(to bottom, #75bfe4, #d6eafa);
   padding: 8px 12px;
   border-radius: 10px;
   font-size: 15px;
@@ -138,13 +137,13 @@ h1, .extra-resources h2 {
 
 .folder a:hover, .resource-button:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 15px rgba(237, 109, 109, 0.801);
+  box-shadow: 0 6px 15px rgb(109, 237, 218);
 }
 
 .resource-button {
   display: inline-block;
   width: auto;
-  background: linear-gradient(to right, #ff82cd, #ffb74d);
+  background: linear-gradient(to right, #e45ebc, #ffb74d);
   color: #3e2723;
   margin: 10px;
   font-weight: bold;
@@ -182,6 +181,6 @@ h1, .extra-resources h2 {
 
 @keyframes pulse {
   0% { box-shadow: 0 0 0 0 rgba(255, 165, 0, 0.5); }
-  70% { box-shadow: 0 0 0 10px rgba(255, 165, 0, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 165, 0, 0); }
+  70% { box-shadow: 0 0 0 10px rgb(255, 166, 0); }
+  100% { box-shadow: 0 0 0 0 rgb(255, 166, 0); }
 }
