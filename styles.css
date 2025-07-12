@@ -184,3 +184,49 @@ h1, .extra-resources h2 {
   70% { box-shadow: 0 0 0 10px rgb(255, 166, 0); }
   100% { box-shadow: 0 0 0 0 rgb(255, 166, 0); }
 }
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.contact-links {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  margin-top: 5px;
+}
+.contact-link {
+  color: #0b39b7;
+  font-size: 22px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.contact-link:hover {
+  color: #ff6f00;
+}
+.contact-link .fa-linkedin {
+  color: #0077b5;
+}
+.contact-link .fa-facebook {
+  color: #3b5998;
+}
+.contact-link .fa-envelope {
+  color: #ea4335;
+}
+.contact-link:hover .fa-linkedin {
+  color: #005983;
+}
+.contact-link:hover .fa-facebook {
+  color: #1877f3;
+}
+.contact-link:hover .fa-envelope {
+  color: #d93025;
+}
+.footer {
+  text-align: center;
+  margin-top: 5px;
+  font-size: 15px;
+  color: brown;
+  padding: 50px 10px 10px 10px;
+}
