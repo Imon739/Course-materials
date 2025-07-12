@@ -1,4 +1,3 @@
-// Structure: trimester > course > files
 const materials = {
    "Spring 2023": {
       "Discrete Mathematics": [
@@ -219,6 +218,7 @@ const materials = {
             {name: "Assignments", url: "https://drive.google.com/drive/folders/15BvE1BKJ3tqwYqLhX7DMeXGUz6khGuaW"},
             {name: "Slide", url: "https://drive.google.com/drive/folders/1Bv2uJysRX2p_TPxaLyXRFiiOIVRYYavD"},
             {name: "Mid & Final Solve", url: "https://drive.google.com/drive/folders/1vd655T2EnHmIh1H4SsvpuXtqtyKPf09e"},
+            {name: "Cheat code", url: "https://github.com/Imon739/Network_Calculator/blob/main/address_finder.py"},
             {name: "Lab Practices", url: "https://drive.google.com/drive/folders/1PByzcuZS0F1yTE-85PqGNdTA---07dca"}
       ],
       "Coordinate Geometry and Vector Analysis":[
