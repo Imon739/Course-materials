@@ -1,3 +1,4 @@
+// Structure: trimester > course > files
 const materials = {
    "Spring 2023": {
       "Discrete Mathematics": [
@@ -274,14 +275,19 @@ for (let trimester in materials) {
       folderDiv.style.display = isOpen ? "none" : "block";
     });
 
-    materials[trimester][course].forEach(item => {
-      const a = document.createElement("a");
-      a.href = item.url;
-      a.target = "_blank";
-      a.textContent = item.name;
-      folderDiv.appendChild(a);
-      folderDiv.appendChild(document.createElement("br"));
-    });
+const grid = document.createElement("div");
+grid.className = "button-grid";
+
+materials[trimester][course].forEach(item => {
+    const a = document.createElement("a");
+    a.href = item.url;
+    a.target = "_blank";
+    a.textContent = item.name;
+    a.className = "resource-button";
+    grid.appendChild(a);
+});
+
+folderDiv.appendChild(grid);
 
     courseSection.appendChild(courseBtn);
     courseSection.appendChild(folderDiv);
