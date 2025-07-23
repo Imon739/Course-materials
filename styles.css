@@ -163,18 +163,28 @@ h1, .extra-resources h2 {
 }
 .button-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 0; 
-    margin: 0;
+    grid-template-columns: repeat(3, 170px); /* 3 columns (desktop) */
+    gap: 8px 6px;
+    justify-content: center;
+    margin: 20px auto 0 auto;
+}
+
+@media (max-width: 600px) {
+    .button-grid {
+        grid-template-columns: repeat(2, 140px); /* 2 columns on small screens */
+        gap: 18px 20px; /* Adjust spacing as needed */
+    }
 }
 
 .resource-button {
-    width: 150px;             
+    width: 100%;
     min-width: 0;
     max-width: 100%;
-    margin: 0 auto;
-    box-sizing: border-box;
     text-align: center;
+    /* optional: */
+    white-space: normal; /* allow wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .resource-button {
@@ -182,7 +192,7 @@ h1, .extra-resources h2 {
   width: auto;
   background: linear-gradient(to right, #e45ebc, #ffb74d);
   color: #3e2723;
-  margin: 10px;
+  margin: 4px;
   font-weight: bold;
   border-radius: 8px;
   text-decoration: none;
