@@ -1,4 +1,3 @@
-// Structure: trimester > course > files
 const materials = {
    "Spring 2023": {
       "Discrete Mathematics": [
@@ -292,7 +291,6 @@ folderDiv.appendChild(grid);
     courseSection.appendChild(courseBtn);
     courseSection.appendChild(folderDiv);
   }
-
   container.appendChild(trimesterBtn);
   container.appendChild(courseSection);
 }
