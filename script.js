@@ -232,65 +232,64 @@ const materials = {
     }
   };
   
-const container = document.getElementById("trimesterContainer");
+document.addEventListener("DOMContentLoaded", function() {
+  const container = document.getElementById("trimesterContainer");
+  const loader = document.getElementById("loader");
+  const mainContainer = document.querySelector(".container");
 
-for (let trimester in materials) {
-  const trimesterBtn = document.createElement("button");
-  trimesterBtn.className = "button";
-  trimesterBtn.textContent = trimester;
+  const fragment = document.createDocumentFragment();
 
-  const courseSection = document.createElement("div");
-  courseSection.className = "section course";
-  courseSection.style.display = "none";
+  Object.entries(materials).forEach(([trimester, courses]) => {
+    const trimesterBtn = document.createElement("button");
+    trimesterBtn.className = "button";
+    trimesterBtn.textContent = trimester;
 
-  trimesterBtn.addEventListener("click", () => {
-    const isCurrentlyVisible = courseSection.style.display === "block";
+    const courseSection = document.createElement("div");
+    courseSection.className = "section course";
+    courseSection.style.display = "none";
 
-    const allSections = document.querySelectorAll(".section.course");
-    allSections.forEach(section => {
-      section.style.display = "none";
+    trimesterBtn.addEventListener("click", () => {
+      document.querySelectorAll(".section.course").forEach(sec => sec.style.display = "none");
+      courseSection.style.display = courseSection.style.display === "block" ? "none" : "block";
     });
 
-    courseSection.style.display = isCurrentlyVisible ? "none" : "block";
-  });
+    Object.entries(courses).forEach(([course, items]) => {
+      const courseBtn = document.createElement("button");
+      courseBtn.className = "button";
+      courseBtn.textContent = course;
 
-  for (let course in materials[trimester]) {
-    const courseBtn = document.createElement("button");
-    courseBtn.className = "button";
-    courseBtn.textContent = course;
+      const folderDiv = document.createElement("div");
+      folderDiv.className = "section folder";
+      folderDiv.style.display = "none";
 
-    const folderDiv = document.createElement("div");
-    folderDiv.className = "section folder";
-    folderDiv.style.display = "none";
-
-    courseBtn.addEventListener("click", () => {
-      const isOpen = folderDiv.style.display === "block";
-
-      const allFolders = courseSection.querySelectorAll(".folder");
-      allFolders.forEach(folder => {
-        folder.style.display = "none";
+      courseBtn.addEventListener("click", () => {
+        courseSection.querySelectorAll(".folder").forEach(f => f.style.display = "none");
+        folderDiv.style.display = folderDiv.style.display === "block" ? "none" : "block";
       });
 
-      folderDiv.style.display = isOpen ? "none" : "block";
+      const grid = document.createElement("div");
+      grid.className = "button-grid";
+
+      items.forEach(item => {
+        const a = document.createElement("a");
+        a.href = item.url;
+        a.target = "_blank";
+        a.textContent = item.name;
+        a.className = "resource-button";
+        grid.appendChild(a);
+      });
+
+      folderDiv.appendChild(grid);
+      courseSection.appendChild(courseBtn);
+      courseSection.appendChild(folderDiv);
     });
 
-const grid = document.createElement("div");
-grid.className = "button-grid";
+    fragment.appendChild(trimesterBtn);
+    fragment.appendChild(courseSection);
+  });
 
-materials[trimester][course].forEach(item => {
-    const a = document.createElement("a");
-    a.href = item.url;
-    a.target = "_blank";
-    a.textContent = item.name;
-    a.className = "resource-button";
-    grid.appendChild(a);
+  container.appendChild(fragment);
+
+  loader.style.display = "none";
+  mainContainer.style.display = "";
 });
-
-folderDiv.appendChild(grid);
-
-    courseSection.appendChild(courseBtn);
-    courseSection.appendChild(folderDiv);
-  }
-  container.appendChild(trimesterBtn);
-  container.appendChild(courseSection);
-}
