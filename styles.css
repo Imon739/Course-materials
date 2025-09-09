@@ -298,16 +298,42 @@ h1, .extra-resources h2 {
   z-index: 9999;
   color: #fff;
   font-size: 20px;
+  opacity: 1;
+  transition: opacity 0.7s cubic-bezier(.4,2,.3,1), transform 0.7s cubic-bezier(.4,2,.3,1);
+  transform: scale(1);
+  will-change: opacity, transform;
+}
+.loader.fade-out {
+  opacity: 0;
+  transform: scale(1.08);
+  pointer-events: none;
 }
 .spinner {
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   border: 6px solid #fff;
   border-top: 6px solid #ff6f00;
+  border-right: 6px solid #21adea;
+  border-bottom: 6px solid #e45ebc;
+  border-left: 6px solid #ffb74d;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 1.2s cubic-bezier(.4,2,.3,1) infinite, bounce 1.2s alternate infinite;
   margin-bottom: 12px;
+  box-shadow: 0 0 24px 4px #ff6f0044;
 }
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+@keyframes bounce {
+  0% { box-shadow: 0 0 24px 4px #ff6f0044, 0 0 0 0 #fff; }
+  100% { box-shadow: 0 12px 32px 8px #21adea44, 0 0 0 8px #fff2; }
+}
+.loader span {
+  font-size: 1.1em;
+  letter-spacing: 0.04em;
+  animation: loaderTextFade 1.6s infinite alternate;
+}
+@keyframes loaderTextFade {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
 }
