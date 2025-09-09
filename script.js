@@ -292,4 +292,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
   loader.style.display = "none";
   mainContainer.style.display = "";
+
+  // Show loader for at least 1.2s, then fade out smoothly
+  setTimeout(() => {
+    loader.classList.add("fade-out");
+    setTimeout(() => {
+      loader.style.display = "none";
+      mainContainer.style.display = "";
+    }, 700); // matches transition duration
+  }, 1200); // minimum loader time in ms
 });
