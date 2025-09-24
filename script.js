@@ -232,73 +232,182 @@ const materials = {
     }
   };
   
-document.addEventListener("DOMContentLoaded", function() {
-  const container = document.getElementById("trimesterContainer");
-  const loader = document.getElementById("loader");
-  const mainContainer = document.querySelector(".container");
+// Single unified logic: build UI, loader, and toggle behavior
+(() => {
+  const loader = document.getElementById('loader');
+  const main = document.querySelector('.container');
+  const extra = document.querySelector('.extra-resources');
+  const footer = document.querySelector('.footer');
+  const container = document.getElementById('trimesterContainer');
 
-  const fragment = document.createDocumentFragment();
-
-  Object.entries(materials).forEach(([trimester, courses]) => {
-    const trimesterBtn = document.createElement("button");
-    trimesterBtn.className = "button";
-    trimesterBtn.textContent = trimester;
-
-    const courseSection = document.createElement("div");
-    courseSection.className = "section course";
-    courseSection.style.display = "none";
-
-    trimesterBtn.addEventListener("click", () => {
-      document.querySelectorAll(".section.course").forEach(sec => sec.style.display = "none");
-      courseSection.style.display = courseSection.style.display === "block" ? "none" : "block";
-    });
-
-    Object.entries(courses).forEach(([course, items]) => {
-      const courseBtn = document.createElement("button");
-      courseBtn.className = "button";
-      courseBtn.textContent = course;
-
-      const folderDiv = document.createElement("div");
-      folderDiv.className = "section folder";
-      folderDiv.style.display = "none";
-
-      courseBtn.addEventListener("click", () => {
-        courseSection.querySelectorAll(".folder").forEach(f => f.style.display = "none");
-        folderDiv.style.display = folderDiv.style.display === "block" ? "none" : "block";
-      });
-
-      const grid = document.createElement("div");
-      grid.className = "button-grid";
-
-      items.forEach(item => {
-        const a = document.createElement("a");
-        a.href = item.url;
-        a.target = "_blank";
-        a.textContent = item.name;
-        a.className = "resource-button";
-        grid.appendChild(a);
-      });
-
-      folderDiv.appendChild(grid);
-      courseSection.appendChild(courseBtn);
-      courseSection.appendChild(folderDiv);
-    });
-
-    fragment.appendChild(trimesterBtn);
-    fragment.appendChild(courseSection);
+  const delay = (ms) => new Promise(r => setTimeout(r, ms));
+  const domReady = new Promise(res => {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', res, { once: true });
+    else res();
+  });
+  const windowLoaded = new Promise(res => {
+    if (document.readyState === 'complete') res();
+    else window.addEventListener('load', res, { once: true });
   });
 
-  container.appendChild(fragment);
+  const isHidden = (el) => getComputedStyle(el).display === 'none';
+  const nextByClass = (start, className) => {
+    let el = start.nextElementSibling;
+    while (el) {
+      if (el.classList?.contains(className)) return el;
+      el = el.nextElementSibling;
+    }
+    return null;
+  };
 
-  loader.style.display = "none";
-  mainContainer.style.display = "";
+  // Smooth folder animations
+  function expandFolder(folder) {
+    folder.classList.remove('collapsed');
+    folder.classList.add('expanded');
+    folder.style.height = 'auto';
+    const target = folder.scrollHeight + 'px';
+    folder.style.height = '0px';
+    folder.getBoundingClientRect(); // reflow
+    folder.style.opacity = '1';
+    folder.style.height = target;
+    const onEnd = (e) => {
+      if (e.propertyName !== 'height') return;
+      folder.style.height = 'auto';
+      folder.removeEventListener('transitionend', onEnd);
+    };
+    folder.addEventListener('transitionend', onEnd);
+  }
+  function collapseFolder(folder) {
+    const start = folder.scrollHeight + 'px';
+    folder.style.height = start;
+    folder.getBoundingClientRect(); // reflow
+    folder.style.opacity = '0';
+    folder.style.height = '0px';
+    const onEnd = (e) => {
+      if (e.propertyName !== 'height') return;
+      folder.classList.add('collapsed');
+      folder.classList.remove('expanded');
+      folder.style.height = '0px';
+      folder.removeEventListener('transitionend', onEnd);
+    };
+    folder.addEventListener('transitionend', onEnd);
+  }
+  function toggleFolder(folder) {
+    folder.classList.contains('expanded') ? collapseFolder(folder) : expandFolder(folder);
+  }
 
-  // Show loader for at least 1.2s, then fade out smoothly
-  setTimeout(() => {
-    loader.classList.add("fade-out");
-    setTimeout(() => {
-      loader.style.display = "none";
-      mainContainer.style.display = "";
-    }, 700); // matches transition duration
-  }, 1200); // minimum loader time in ms
-});
+  domReady.then(() => {
+    // Build trimester -> courses -> resources
+    if (container && !container.hasChildNodes()) {
+      const frag = document.createDocumentFragment();
+      Object.entries(materials).forEach(([trimester, courses]) => {
+        const triBtn = document.createElement('button');
+        triBtn.className = 'button trimester-btn';
+        triBtn.type = 'button';
+        triBtn.textContent = trimester;
+        triBtn.setAttribute('aria-expanded', 'false');
+
+        const courseWrap = document.createElement('div');
+        courseWrap.className = 'section course';
+        courseWrap.style.display = 'none';
+
+        Object.entries(courses).forEach(([courseName, items]) => {
+          const cBtn = document.createElement('button');
+          cBtn.className = 'button course-btn';
+          cBtn.type = 'button';
+          cBtn.textContent = courseName;
+          cBtn.setAttribute('aria-expanded', 'false');
+
+          const folder = document.createElement('div');
+          folder.className = 'section folder collapsed';
+          folder.style.height = '0px';
+          folder.style.opacity = '0';
+
+          const grid = document.createElement('div');
+          grid.className = 'button-grid';
+          items.forEach(item => {
+            const a = document.createElement('a');
+            a.href = item.url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.textContent = item.name;
+            a.className = 'resource-button';
+            grid.appendChild(a);
+          });
+          folder.appendChild(grid);
+          courseWrap.appendChild(cBtn);
+          courseWrap.appendChild(folder);
+        });
+
+        frag.appendChild(triBtn);
+        frag.appendChild(courseWrap);
+      });
+      container.appendChild(frag);
+    }
+    // Hide all course sections initially
+    document.querySelectorAll('.course').forEach(sec => { sec.style.display = 'none'; });
+
+    // Collapse all folders initially
+    document.querySelectorAll('.folder').forEach(f => {
+      f.classList.add('collapsed');
+      f.classList.remove('expanded');
+      f.style.height = '0px';
+      f.style.opacity = '0';
+    });
+
+    // Delegated clicks
+    document.addEventListener('click', (e) => {
+      // Ignore resource links
+      if (e.target.closest('.resource-button, a[href]')) return;
+
+      // Course-level buttons (inside .course): toggle the next .folder
+      const courseBtn = e.target.closest('.course .button, .course button');
+      if (courseBtn) {
+        const folder = nextByClass(courseBtn, 'folder') || courseBtn.parentElement.querySelector('.folder');
+        if (folder) {
+          toggleFolder(folder);
+          courseBtn.setAttribute('aria-expanded', folder.classList.contains('expanded') ? 'true' : 'false');
+        }
+        return;
+      }
+
+      // Trimester buttons (any .button not inside .course): toggle the next .course
+      const trimesterBtn = e.target.closest('.button:not(.resource-button)');
+      if (trimesterBtn && !trimesterBtn.closest('.course')) {
+        // aria-controls or data-target takes priority
+        const targetId = trimesterBtn.getAttribute('aria-controls') || trimesterBtn.dataset.target;
+        let courseSection = targetId ? document.getElementById(targetId) : null;
+
+        // Fallback to adjacent .course after the button
+        if (!courseSection) {
+          courseSection = nextByClass(trimesterBtn, 'course') ||
+                          trimesterBtn.parentElement.querySelector(':scope > .course');
+        }
+
+        if (courseSection) {
+          courseSection.style.display = isHidden(courseSection) ? 'block' : 'none';
+          trimesterBtn.setAttribute('aria-expanded', !isHidden(courseSection) ? 'true' : 'false');
+        }
+      }
+    });
+  });
+
+  // Loader + smooth reveal
+  const MIN_LOADER_MS = 1400;
+  Promise.all([domReady, windowLoaded, delay(MIN_LOADER_MS)]).then(() => {
+    if (main) {
+      main.style.display = 'block';
+      requestAnimationFrame(() => {
+        main.classList.add('reveal');
+        extra?.classList.add('reveal');
+        footer?.classList.add('reveal');
+      });
+    }
+    if (loader) {
+      const hide = () => { loader.style.display = 'none'; loader.removeEventListener('transitionend', hide); };
+      loader.classList.add('fade-out');
+      loader.addEventListener('transitionend', hide);
+      setTimeout(hide, 1000); // fallback
+    }
+  });
+})();
