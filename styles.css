@@ -1,6 +1,6 @@
 body {
   font-family: Daytona, sans-serif;
-  background: linear-gradient(to bottom, #0b39b7, #0b1932);
+  background: linear-gradient(to bottom, #56a3de, #0b1932);
   margin: 0;
   padding: 30px;
   position: relative;
@@ -83,7 +83,7 @@ h1, .extra-resources h2 {
 }
 
 .button {
-  background: linear-gradient(to left, #5279d4, #27b4be);
+  background: linear-gradient(to left, #0d2865, #30e5f6);
   color: black;
   margin-top: 10px;
 }
@@ -103,7 +103,7 @@ h1, .extra-resources h2 {
 }
 
 .course button {
-  background: linear-gradient(to right, #dad6d6, #e6e5e5);
+  background: linear-gradient(to right, #ada8a8, #e6e5e5);
   color: #000;
   font-size: 15px;
   padding: 8px 10px;
@@ -129,7 +129,7 @@ h1, .extra-resources h2 {
 .folder a {
   display: inline-block;
   padding: 12px 18px;
-  background: linear-gradient(to bottom, #5fc4f6, #d6eafa);
+  background: linear-gradient(to bottom, #4eafdf, #f8fad6);
   border-radius: 8px;
   font-size: 15px;
   box-shadow: 2px 2px 8px rgba(1, 55, 61, 0.97);
@@ -143,19 +143,28 @@ h1, .extra-resources h2 {
   box-shadow: 0 6px 12px rgba(77, 26, 59, 0.2);
 }
 
+/* Smooth folder expand/collapse (override old max-height rules) */
+.folder { 
+  overflow: hidden; 
+  transition: height 260ms ease, opacity 260ms ease;
+}
+
+/* kill old max-height cap */
+.folder.collapsed,
+.folder.expanded { 
+  max-height: none !important; 
+}
+
 .folder.collapsed {
-  max-height: 0;
-  overflow: visible;
-  padding: 0;
-  margin: 0;
+  height: 0 !important;
   opacity: 0;
-  transition: all 0.3s ease-out;
+  padding-top: 0;
+  margin-top: 0;
 }
 
 .folder.expanded {
-  max-height: 500px;
+  /* height will be controlled via JS to allow smooth auto height */
   opacity: 1;
-  transition: all 0.3s ease-in;
 }
 .folder a:hover, .resource-button:hover {
   transform: scale(1.05);
@@ -336,4 +345,140 @@ h1, .extra-resources h2 {
 @keyframes loaderTextFade {
   0% { opacity: 0.7; }
   100% { opacity: 1; }
+}
+
+/* === Premium look + smooth reveals === */
+:root{
+  --bg1:#0b39b7; --bg2:#0b1932;
+  --brand:#ff6f00; --accent-1:#21adea; --accent-2:#e45ebc;
+  --glass: rgba(255,255,255,.08);
+  --glass-2: rgba(255,255,255,.04);
+  --glass-border: rgba(255,255,255,.18);
+  --radius:14px;
+  --shadow: 0 12px 30px rgba(0,0,0,.25);
+}
+
+/* glass cards */
+.container,
+.extra-resources {
+  background: linear-gradient(140deg, var(--glass), var(--glass-2));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: clip;
+}
+
+/* smooth reveal after loader */
+.container,
+.extra-resources,
+.footer {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.container.reveal,
+.extra-resources.reveal,
+.footer.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* responsive, tighter grid */
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 18px 20px;
+  justify-content: center;
+}
+
+/* premium buttons */
+.button {
+  background: linear-gradient(135deg, #5b86e5, #36d1dc);
+  color: #0b1932;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,.25);
+  box-shadow: 0 6px 14px rgba(11,25,50,.25);
+  border-radius: 10px;
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(11,25,50,.30);
+}
+.course button {
+  background: linear-gradient(135deg, #c58d1d, #e9eef5);
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 10px;
+}
+
+/* pill-like resource buttons */
+.resource-button {
+  display: inline-block;
+  background: linear-gradient(135deg, #e45ebc, #ffb74d);
+  color: #2c1a18;
+  padding: 10px 14px;
+  margin: 6px;
+  font-weight: 700;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 999px;
+  box-shadow: 0 6px 16px rgba(228, 94, 188, .3);
+  transition: transform .22s ease, box-shadow .22s ease, filter .22s ease;
+}
+.resource-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(228, 94, 188, .35);
+  filter: saturate(1.08);
+}
+
+/* unique orbit spinner (overrides previous .spinner) */
+.spinner {
+  position: relative;
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  background:
+    conic-gradient(from 0deg, var(--brand), var(--accent-1), var(--accent-2), #ffb74d, var(--brand));
+  -webkit-mask: radial-gradient(farthest-side, transparent 52%, #000 53%);
+          mask: radial-gradient(farthest-side, transparent 52%, #000 53%);
+  animation: spin 1.1s linear infinite;
+  box-shadow: 0 0 24px 4px #ff6f0044;
+  margin-bottom: 12px;
+}
+.spinner::before,
+.spinner::after {
+  content:"";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: radial-gradient(10px 10px at 80% 20%, #fff, transparent 60%),
+              radial-gradient(8px 8px at 20% 80%, #fff, transparent 60%);
+  animation: orbit 1.6s ease-in-out infinite;
+  mix-blend-mode: screen;
+  opacity: .65;
+}
+.spinner::after {
+  inset: -14px;
+  filter: blur(6px);
+  opacity: .35;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes orbit {
+  0%,100% { transform: rotate(0deg) scale(1); }
+  50%     { transform: rotate(180deg) scale(1.03); }
+}
+
+/* loader polish + reduced motion safety */
+.loader {
+  transition: opacity 0.7s cubic-bezier(.4,2,.3,1), transform 0.7s cubic-bezier(.4,2,.3,1);
+}
+.loader span {
+  font-size: 1.05em;
+  letter-spacing: .02em;
+  opacity: .9;
+}
+@media (prefers-reduced-motion: reduce) {
+  .spinner, .spinner::before, .spinner::after { animation: none !important; }
+  .loader { transition: opacity .3s ease !important; }
 }
