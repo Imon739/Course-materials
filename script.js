@@ -229,6 +229,33 @@ const materials = {
             {name: "Quiz", url: "https://drive.google.com/drive/folders/1DuGO9zZNMPTF-l-E6KyKbnjWnsCbEbQc"},
             {name: "Necessary Books", url: "https://drive.google.com/drive/folders/1yjqynFMVqkGJ9DJuRNk_WOAVcEUmiPZb"}
       ]
+    },
+    "Summer 2025":{
+      "Database Management System":[
+            {name: "Assignments", url: "https://drive.google.com/drive/folders/1I41F21i-Z_TET_hM1HA3j4cjVHpo5Xt9"},
+            {name: "Slide", url: "https://drive.google.com/drive/folders/1F4uGOHe4zQJ4eHGKip9t1fm7WOk8sVsF"},
+            {name: "Mid materials", url: "https://drive.google.com/drive/folders/1m8x7y5hQ4gnI3zLOohVeQHwvPglfxwj7"},
+            {name: "Final materials", url: "https://drive.google.com/drive/folders/19JsL5VFYcDOga24umnBX8WjFuwW_HJ91"},
+            {name: "Hand Note", url: "https://drive.google.com/drive/folders/1qDfFlhM_cys9Okt74wSp4y49Sb5w1V8H"},
+            {name: "Lecture Videos", url: "https://drive.google.com/drive/folders/1_uqr8a74kXFurmHjyhMDBLqGIqWKx78J"},
+            {name: "Lab", url: "https://drive.google.com/drive/folders/1ufsD_cKAhzJ87XOv1I8qFqmRMWPK0Jw"}
+      ],
+      "Operating Systems":[
+            {name: "Assignments", url: "https://drive.google.com/drive/folders/1WRHPef24X8mYfvWd6736w6oshaqDxw6f"},
+            {name: "Slide", url: "https://drive.google.com/drive/folders/1oIJRDjvfVBXEOgqq0y14yO99sIINFMjV"},
+            {name: "Mid materials", url: "https://drive.google.com/drive/folders/1T7kIePNZfGRgZCe0sZL1D6sR1GLC3HE4"},
+            {name: "Final materials", url: "https://drive.google.com/drive/folders/1CX42uSJejibEGcOFBM37lwCp_2meEv8Q"},
+            {name: "Hand Note", url: "https://drive.google.com/drive/folders/1FOJMeiFOKt0fsocqrwDISaREzwz4uUTN"},
+            {name: "Quiz", url: "https://drive.google.com/drive/folders/1UylZmiboxFXNwazN9_X7-wpNeeowTo9q"},
+            {name: "Lab", url: "https://drive.google.com/drive/folders/1Q5_mmNM07RMbWv3b355uVdR2WTTFe5lC"}
+      ],
+      "Economics":[
+            {name: "Assignments", url: "https://drive.google.com/drive/folders/1qJtpQIXrCTslFPtq1SHb9I-Yu9fJG_hf"},
+            {name: "Mid materials", url: "https://drive.google.com/drive/folders/1ambJV5CJ8TltITH9Cc-F5IyVjZ6xJL8m"},
+            {name: "Final materials", url: "https://drive.google.com/drive/folders/1VKUXWOR_aZOXZbNihB7RL9FexjLGkh2H"},
+            {name: "Slide", url: "https://drive.google.com/drive/folders/19-xDBqcZ8q2O3mo3GIBAikR6u1HgB7kQ"},
+            {name: "Necessary Books", url: "https://drive.google.com/drive/folders/1ScEzvzcafxvUCuiJVFkOt7rqQH-b7ty6"}
+      ]
     }
   };
   
@@ -300,12 +327,15 @@ const materials = {
     // Build trimester -> courses -> resources
     if (container && !container.hasChildNodes()) {
       const frag = document.createDocumentFragment();
+      // keep a flat index of course buttons for suggestions
+      const allCourses = [];
       Object.entries(materials).forEach(([trimester, courses]) => {
-        const triBtn = document.createElement('button');
-        triBtn.className = 'button trimester-btn';
-        triBtn.type = 'button';
-        triBtn.textContent = trimester;
-        triBtn.setAttribute('aria-expanded', 'false');
+  const triBtn = document.createElement('button');
+  triBtn.className = 'button trimester-btn';
+  triBtn.type = 'button';
+  triBtn.textContent = trimester;
+  triBtn.dataset.orig = trimester;
+  triBtn.setAttribute('aria-expanded', 'false');
 
         const courseWrap = document.createElement('div');
         courseWrap.className = 'section course';
@@ -316,7 +346,15 @@ const materials = {
           cBtn.className = 'button course-btn';
           cBtn.type = 'button';
           cBtn.textContent = courseName;
+          cBtn.dataset.orig = courseName;
           cBtn.setAttribute('aria-expanded', 'false');
+          // index for suggestions (store link to its trimester section and button)
+          allCourses.push({
+            name: courseName,
+            btn: cBtn,
+            trimesterBtn: triBtn,
+            section: courseWrap
+          });
 
           const folder = document.createElement('div');
           folder.className = 'section folder collapsed';
@@ -331,6 +369,7 @@ const materials = {
             a.target = '_blank';
             a.rel = 'noopener noreferrer';
             a.textContent = item.name;
+            a.dataset.orig = item.name;
             a.className = 'resource-button';
             grid.appendChild(a);
           });
@@ -343,6 +382,8 @@ const materials = {
         frag.appendChild(courseWrap);
       });
       container.appendChild(frag);
+      // attach index to container for later suggestion use
+      container._allCourses = allCourses;
     }
     // Hide all course sections initially
     document.querySelectorAll('.course').forEach(sec => { sec.style.display = 'none'; });
@@ -390,6 +431,210 @@ const materials = {
         }
       }
     });
+
+    // --- Search functionality (debounced, highlights, keyboard support) ---
+    const searchInput = document.getElementById('searchInput');
+    const searchClear = document.getElementById('searchClear');
+    const searchCount = document.getElementById('searchCount');
+
+    const escapeHTML = (str) => String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+
+    const highlight = (text, q) => {
+      if (!q) return escapeHTML(text);
+      try {
+        const r = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
+        return escapeHTML(text).replace(r, '<span class="match">$1</span>');
+      } catch (e) {
+        return escapeHTML(text);
+      }
+    };
+
+    const debounce = (fn, ms = 200) => {
+      let t;
+      return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+    };
+
+    const performSearch = (raw) => {
+      const q = String(raw || '').trim().toLowerCase();
+      let matches = 0;
+      const triButtons = Array.from(document.querySelectorAll('.trimester-btn'));
+      triButtons.forEach(triBtn => {
+        const courseSection = triBtn.nextElementSibling;
+        let triHasMatch = false;
+        const courseBtns = courseSection ? Array.from(courseSection.querySelectorAll('.course-btn')) : [];
+        courseBtns.forEach(cBtn => {
+          const courseText = (cBtn.dataset.orig || cBtn.textContent || '').toString();
+          const folder = cBtn.nextElementSibling && cBtn.nextElementSibling.classList.contains('folder') ? cBtn.nextElementSibling : null;
+          const resources = folder ? Array.from(folder.querySelectorAll('.resource-button')) : [];
+          let matchedResources = 0;
+
+          resources.forEach(res => {
+            const orig = (res.dataset.orig || res.textContent || '').toString();
+            if (!q || orig.toLowerCase().includes(q) || courseText.toLowerCase().includes(q)) {
+              res.style.display = '';
+              res.innerHTML = highlight(orig, q);
+              matchedResources += orig.toLowerCase().includes(q) ? 1 : 0;
+            } else {
+              res.style.display = 'none';
+              res.innerHTML = escapeHTML(orig);
+            }
+          });
+
+          // Course-level match
+          if (!q) {
+            cBtn.style.display = '';
+            cBtn.innerHTML = escapeHTML(courseText);
+            if (folder) { collapseFolder(folder); }
+          } else if (courseText.toLowerCase().includes(q) || matchedResources > 0) {
+            triHasMatch = true;
+            cBtn.style.display = '';
+            cBtn.innerHTML = highlight(courseText, q);
+            if (folder) {
+              // ensure courseSection is visible before expanding folder
+              if (courseSection) courseSection.style.display = 'block';
+              if (matchedResources > 0) {
+                expandFolder(folder);
+              } else {
+                collapseFolder(folder);
+              }
+            }
+            matches += (courseText.toLowerCase().includes(q) ? 1 : 0) + matchedResources;
+          } else {
+            cBtn.style.display = 'none';
+            cBtn.innerHTML = escapeHTML(courseText);
+            if (folder) { folder.style.display = 'none'; }
+          }
+        });
+
+        if (!q) {
+          triBtn.style.display = '';
+          if (courseSection) courseSection.style.display = 'none';
+        } else if (triHasMatch) {
+          triBtn.style.display = '';
+          if (courseSection) courseSection.style.display = 'block';
+        } else {
+          triBtn.style.display = 'none';
+          if (courseSection) courseSection.style.display = 'none';
+        }
+      });
+
+      if (searchCount) searchCount.textContent = q ? `${matches} result${matches === 1 ? '' : 's'}` : '';
+    };
+
+    const debouncedSearch = debounce((e) => performSearch(e.target.value), 200);
+    if (searchInput) {
+      searchInput.addEventListener('input', debouncedSearch);
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { searchInput.value = ''; performSearch(''); searchInput.blur(); }
+        if (e.key === 'Enter') {
+          const first = document.querySelector('.resource-button:not([style*="display: none"])');
+          if (first) first.focus();
+        }
+      });
+    }
+    if (searchClear) searchClear.addEventListener('click', () => { if (searchInput) { searchInput.value = ''; performSearch(''); searchInput.focus(); } });
+
+    // --- Suggestions (most related courses) ---
+    const suggestEl = document.getElementById('searchSuggest');
+    let activeIndex = -1;
+
+    const courseScore = (name, q) => {
+      const n = name.toLowerCase();
+      const i = n.indexOf(q);
+      if (i === 0) return 100 - (n.length - q.length); // best: starts with
+      if (i > 0) return 80 - i; // contains later
+      // loose token match: give small score if all chars appear in order
+      let p = 0; let hits = 0;
+      for (let c of n) { if (c === q[p]) { p++; hits++; if (p === q.length) break; } }
+      return hits >= Math.min(2, q.length) ? 50 + hits : -1;
+    };
+
+    const renderSuggestions = (q) => {
+      if (!suggestEl) return;
+      if (!q || q.length < 2) {
+        suggestEl.hidden = true;
+        suggestEl.innerHTML = '';
+        activeIndex = -1;
+        return;
+      }
+      const list = (container._allCourses || []).map(c => ({
+        c,
+        score: courseScore(c.name, q)
+      })).filter(x => x.score >= 0)
+        .sort((a,b) => b.score - a.score)
+        .slice(0, 6);
+
+      if (!list.length) {
+        suggestEl.hidden = true;
+        suggestEl.innerHTML = '';
+        activeIndex = -1;
+        return;
+      }
+      suggestEl.hidden = false;
+      suggestEl.innerHTML = list.map((x, idx) => `
+        <div class="suggest-item${idx===0?' active':''}" role="option" data-index="${idx}">
+          <span>${x.c.name.replace(new RegExp(`(${q.replace(/[.*+?^${}()|[\\]\\]/g,'\\$&')})`,'ig'), '<span class="match">$1</span>')}</span>
+          <span class="suggest-pill">Course</span>
+        </div>
+      `).join('');
+      activeIndex = 0;
+      // click handling
+      suggestEl.querySelectorAll('.suggest-item').forEach((el, i) => {
+        el.addEventListener('mousedown', (e) => { // use mousedown so blur doesn't hide before click
+          e.preventDefault();
+          pickSuggestion(list[i].c);
+        });
+      });
+    };
+
+    const setActive = (idx) => {
+      const items = suggestEl?.querySelectorAll('.suggest-item');
+      if (!items || !items.length) return;
+      items.forEach(el => el.classList.remove('active'));
+      activeIndex = (idx + items.length) % items.length;
+      items[activeIndex].classList.add('active');
+      items[activeIndex].scrollIntoView({ block: 'nearest' });
+    };
+
+    const pickSuggestion = (entry) => {
+      if (!entry) return;
+      // Ensure trimester's course section is visible
+      if (entry.section && entry.section.style.display === 'none') {
+        entry.section.style.display = 'block';
+        entry.trimesterBtn?.setAttribute('aria-expanded','true');
+      }
+      // Focus course button
+      entry.btn?.focus({ preventScroll: true });
+      // Smooth scroll to the course
+      entry.btn?.scrollIntoView({ behavior:'smooth', block:'center' });
+      // Hide suggestions but keep search input value
+      if (suggestEl) { suggestEl.hidden = true; suggestEl.innerHTML = ''; activeIndex = -1; }
+    };
+
+    // Hook suggestions to input
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const q = e.target.value.trim().toLowerCase();
+        renderSuggestions(q);
+      });
+      searchInput.addEventListener('keydown', (e) => {
+        const items = suggestEl?.querySelectorAll('.suggest-item') || [];
+        if (!items.length) return;
+        if (e.key === 'ArrowDown') { e.preventDefault(); setActive(activeIndex + 1); }
+        if (e.key === 'ArrowUp')   { e.preventDefault(); setActive(activeIndex - 1); }
+        if (e.key === 'Enter')     { e.preventDefault(); pickSuggestion((container._allCourses||[]).find(c => c.name === items[activeIndex]?.textContent.trim())); }
+        if (e.key === 'Escape')    { suggestEl.hidden = true; suggestEl.innerHTML = ''; activeIndex = -1; }
+      });
+      searchInput.addEventListener('blur', () => {
+        // slight delay to allow mousedown selection
+        setTimeout(() => { if (suggestEl) { suggestEl.hidden = true; suggestEl.innerHTML = ''; activeIndex = -1; } }, 120);
+      });
+    }
   });
 
   // Loader + smooth reveal
