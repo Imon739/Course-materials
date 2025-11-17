@@ -289,6 +289,10 @@ const materials = {
 
   // Smooth folder animations
   function expandFolder(folder) {
+    // Ensure element is displayable before measuring height
+    if (folder.style.display === 'none') {
+      folder.style.display = 'block';
+    }
     folder.classList.remove('collapsed');
     folder.classList.add('expanded');
     folder.style.height = 'auto';
@@ -310,6 +314,10 @@ const materials = {
     folder.getBoundingClientRect(); // reflow
     folder.style.opacity = '0';
     folder.style.height = '0px';
+    // Keep display:block to allow future smooth expansion; visibility handled via height/opacity
+    if (folder.style.display === 'none') {
+      folder.style.display = 'block';
+    }
     const onEnd = (e) => {
       if (e.propertyName !== 'height') return;
       folder.classList.add('collapsed');
@@ -321,6 +329,10 @@ const materials = {
   }
   function toggleFolder(folder) {
     folder.classList.contains('expanded') ? collapseFolder(folder) : expandFolder(folder);
+    // Smooth scroll newly expanded folder into view without big jumps
+    if (folder.classList.contains('expanded')) {
+      folder.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   }
 
   domReady.then(() => {
@@ -376,6 +388,23 @@ const materials = {
           folder.appendChild(grid);
           courseWrap.appendChild(cBtn);
           courseWrap.appendChild(folder);
+
+          // Build fast search index entry
+          const resElems = Array.from(grid.children);
+          const indexEntry = {
+            trimesterBtn: triBtn,
+            courseBtn: cBtn,
+            courseSection: courseWrap,
+            folder,
+            courseText: courseName,
+            courseLower: courseName.toLowerCase(),
+            resources: resElems.map(el => ({
+              el,
+              text: el.dataset.orig || el.textContent,
+              lower: (el.dataset.orig || el.textContent).toLowerCase()
+            }))
+          };
+          (container._searchIndex ||= []).push(indexEntry);
         });
 
         frag.appendChild(triBtn);
@@ -406,6 +435,9 @@ const materials = {
       if (courseBtn) {
         const folder = nextByClass(courseBtn, 'folder') || courseBtn.parentElement.querySelector('.folder');
         if (folder) {
+          // Auto-collapse any other expanded folders in same course section for cleaner UX
+          const siblings = courseBtn.parentElement.querySelectorAll('.folder.expanded');
+          siblings.forEach(sib => { if (sib !== folder) collapseFolder(sib); });
           toggleFolder(folder);
           courseBtn.setAttribute('aria-expanded', folder.classList.contains('expanded') ? 'true' : 'false');
         }
@@ -461,69 +493,79 @@ const materials = {
 
     const performSearch = (raw) => {
       const q = String(raw || '').trim().toLowerCase();
-      let matches = 0;
-      const triButtons = Array.from(document.querySelectorAll('.trimester-btn'));
-      triButtons.forEach(triBtn => {
-        const courseSection = triBtn.nextElementSibling;
-        let triHasMatch = false;
-        const courseBtns = courseSection ? Array.from(courseSection.querySelectorAll('.course-btn')) : [];
-        courseBtns.forEach(cBtn => {
-          const courseText = (cBtn.dataset.orig || cBtn.textContent || '').toString();
-          const folder = cBtn.nextElementSibling && cBtn.nextElementSibling.classList.contains('folder') ? cBtn.nextElementSibling : null;
-          const resources = folder ? Array.from(folder.querySelectorAll('.resource-button')) : [];
-          let matchedResources = 0;
+      const index = container._searchIndex || [];
+      let totalMatches = 0;
+      if (!q) {
+        // Reset view fast
+        index.forEach(entry => {
+          entry.courseBtn.style.display = '';
+          entry.courseBtn.innerHTML = escapeHTML(entry.courseText);
+          collapseFolder(entry.folder);
+        });
+        // Hide all course sections initially again
+        new Set(index.map(e => e.courseSection)).forEach(cs => cs.style.display = 'none');
+        new Set(index.map(e => e.trimesterBtn)).forEach(tb => tb.style.display = '');
+        if (searchCount) searchCount.textContent = '';
+        return;
+      }
 
-          resources.forEach(res => {
-            const orig = (res.dataset.orig || res.textContent || '').toString();
-            if (!q || orig.toLowerCase().includes(q) || courseText.toLowerCase().includes(q)) {
-              res.style.display = '';
-              res.innerHTML = highlight(orig, q);
-              matchedResources += orig.toLowerCase().includes(q) ? 1 : 0;
-            } else {
-              res.style.display = 'none';
-              res.innerHTML = escapeHTML(orig);
-            }
-          });
-
-          // Course-level match
-          if (!q) {
-            cBtn.style.display = '';
-            cBtn.innerHTML = escapeHTML(courseText);
-            if (folder) { collapseFolder(folder); }
-          } else if (courseText.toLowerCase().includes(q) || matchedResources > 0) {
-            triHasMatch = true;
-            cBtn.style.display = '';
-            cBtn.innerHTML = highlight(courseText, q);
-            if (folder) {
-              // ensure courseSection is visible before expanding folder
-              if (courseSection) courseSection.style.display = 'block';
-              if (matchedResources > 0) {
-                expandFolder(folder);
-              } else {
-                collapseFolder(folder);
-              }
-            }
-            matches += (courseText.toLowerCase().includes(q) ? 1 : 0) + matchedResources;
+      // Track trimester visibility
+      const trimesterHasMatch = new Map();
+      index.forEach(entry => {
+        let matchedResources = 0;
+        const courseHit = entry.courseLower.includes(q);
+        // Filter resources without DOM queries
+        entry.resources.forEach(r => {
+          if (r.lower.includes(q) || courseHit) {
+            r.el.style.display = '';
+            r.el.innerHTML = highlight(r.text, q);
+            if (r.lower.includes(q)) matchedResources++;
           } else {
-            cBtn.style.display = 'none';
-            cBtn.innerHTML = escapeHTML(courseText);
-            if (folder) { folder.style.display = 'none'; }
+            r.el.style.display = 'none';
+            r.el.innerHTML = escapeHTML(r.text);
           }
         });
 
-        if (!q) {
-          triBtn.style.display = '';
-          if (courseSection) courseSection.style.display = 'none';
-        } else if (triHasMatch) {
-          triBtn.style.display = '';
-          if (courseSection) courseSection.style.display = 'block';
+        if (courseHit || matchedResources > 0) {
+          entry.courseBtn.style.display = '';
+          entry.courseBtn.innerHTML = highlight(entry.courseText, q);
+          // Ensure course section visible
+          entry.courseSection.style.display = 'block';
+          // Expand folder only if resource matched (avoid opening all on broad course match)
+          if (matchedResources > 0) {
+            expandFolder(entry.folder);
+          } else {
+            collapseFolder(entry.folder);
+          }
+          trimesterHasMatch.set(entry.trimesterBtn, true);
+          totalMatches += (courseHit ? 1 : 0) + matchedResources;
         } else {
-          triBtn.style.display = 'none';
-          if (courseSection) courseSection.style.display = 'none';
+          entry.courseBtn.style.display = 'none';
+          entry.courseBtn.innerHTML = escapeHTML(entry.courseText);
+          collapseFolder(entry.folder);
+          if (!trimesterHasMatch.has(entry.trimesterBtn)) {
+            trimesterHasMatch.set(entry.trimesterBtn, false);
+          }
         }
       });
 
-      if (searchCount) searchCount.textContent = q ? `${matches} result${matches === 1 ? '' : 's'}` : '';
+      // Update trimester button + section visibility based on matches
+      const seenTrimester = new Set();
+      index.forEach(entry => {
+        if (seenTrimester.has(entry.trimesterBtn)) return;
+        seenTrimester.add(entry.trimesterBtn);
+        const has = trimesterHasMatch.get(entry.trimesterBtn);
+        if (has) {
+          entry.trimesterBtn.style.display = '';
+          entry.trimesterBtn.setAttribute('aria-expanded','true');
+        } else {
+          entry.trimesterBtn.style.display = 'none';
+          entry.trimesterBtn.setAttribute('aria-expanded','false');
+          entry.courseSection.style.display = 'none';
+        }
+      });
+
+      if (searchCount) searchCount.textContent = `${totalMatches} result${totalMatches===1?'':'s'}`;
     };
 
     const debouncedSearch = debounce((e) => performSearch(e.target.value), 200);
@@ -610,6 +652,12 @@ const materials = {
       }
       // Focus course button
       entry.btn?.focus({ preventScroll: true });
+      // Auto expand its folder for quick access
+      const folder = entry.btn?.nextElementSibling?.classList.contains('folder') ? entry.btn.nextElementSibling : null;
+      if (folder && !folder.classList.contains('expanded')) {
+        expandFolder(folder);
+        entry.btn.setAttribute('aria-expanded','true');
+      }
       // Smooth scroll to the course
       entry.btn?.scrollIntoView({ behavior:'smooth', block:'center' });
       // Hide suggestions but keep search input value
