@@ -1,7 +1,6 @@
-import { useState } from 'react'
 import Course from './Course'
 
-function Trimester({ name, courses, expanded, onToggle, searchQuery, highlightText }) {
+function Trimester({ name, courses, expanded, onToggle, activeSelection }) {
   return (
     <div className="trimester">
       <button
@@ -9,7 +8,7 @@ function Trimester({ name, courses, expanded, onToggle, searchQuery, highlightTe
         onClick={onToggle}
         aria-expanded={expanded}
       >
-        {highlightText(name, searchQuery)}
+        {name}
       </button>
       
       <div 
@@ -21,8 +20,7 @@ function Trimester({ name, courses, expanded, onToggle, searchQuery, highlightTe
             key={courseName}
             name={courseName}
             resources={resources}
-            searchQuery={searchQuery}
-            highlightText={highlightText}
+            activeSelection={activeSelection}
           />
         ))}
       </div>

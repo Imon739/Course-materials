@@ -1,39 +1,44 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-function Course({ name, resources, searchQuery, highlightText }) {
+function Course({ name, resources, activeSelection }) {
   const [expanded, setExpanded] = useState(false)
+  const buttonRef = useRef(null)
 
-  // Auto-expand when searching
   useEffect(() => {
-    if (searchQuery.trim()) {
-      setExpanded(true)
-    }
-  }, [searchQuery])
+    if (!activeSelection?.courseName) return
+    if (activeSelection.courseName !== name) return
+    setExpanded(true)
+    // scroll to the course button smoothly
+    buttonRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }, [activeSelection, name])
 
   return (
     <>
       <button
+        ref={buttonRef}
         className="button course-btn"
         onClick={() => setExpanded(!expanded)}
         aria-expanded={expanded}
       >
-        {highlightText(name, searchQuery)}
+        {name}
       </button>
       
       <div className={`section folder ${expanded ? 'expanded' : 'collapsed'}`}>
-        <div className="button-grid">
-          {resources.map((resource, idx) => (
-            <a
-              key={idx}
-              href={resource.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="resource-button"
-            >
-              {highlightText(resource.name, searchQuery)}
-            </a>
-          ))}
-        </div>
+        {expanded && (
+          <div className="button-grid">
+            {resources.map((resource, idx) => (
+              <a
+                key={idx}
+                href={resource.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="resource-button"
+              >
+                {resource.name}
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     </>
   )

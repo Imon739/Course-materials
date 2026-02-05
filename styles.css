@@ -459,6 +459,38 @@ h1, .extra-resources h2 {
   border-radius: 10px;
 }
 
+/* === Button sizing polish (premium) === */
+.trimester-btn {
+  padding: 14px 16px !important;
+  font-size: 16px !important;
+  border-radius: 14px !important;
+  letter-spacing: 0.2px;
+}
+
+.course-btn {
+  padding: 12px 14px !important;
+  font-size: 15px !important;
+  border-radius: 12px !important;
+}
+
+.resource-button {
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+/* 'Not found' message */
+.no-results {
+  max-width: 900px;
+  margin: 10px auto 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: linear-gradient(140deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+  color: rgba(255,255,255,.92);
+  box-shadow: 0 10px 24px rgba(11,25,50,.18);
+  backdrop-filter: blur(8px);
+}
+
 /* pill-like resource buttons */
 .resource-button {
   display: inline-block;
