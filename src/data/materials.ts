@@ -1,4 +1,6 @@
-export const materials = {
+import type { Materials } from '../types'
+
+export const materials: Materials = {
   "Spring 2023": {
     "Discrete Mathematics": [
       {name: "Slide", url: "https://drive.google.com/drive/folders/1zyMFO7KbM_27r6B_tGq7VFu31DqdNbyW"},
@@ -252,4 +254,4 @@ export const materials = {
       {name: "Necessary Books", url: "https://drive.google.com/drive/folders/1ScEzvzcafxvUCuiJVFkOt7rqQH-b7ty6"}
     ]
   }
-};
+}

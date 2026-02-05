@@ -1,21 +1,29 @@
 import { useRef } from 'react'
+import type { CourseSuggestion } from '../types'
 
-function SearchBar({ query, onQueryChange, suggestions, onPickSuggestion }) {
-  const inputRef = useRef(null)
+type Props = {
+  query: string
+  onQueryChange: (value: string) => void
+  suggestions: CourseSuggestion[]
+  onPickSuggestion?: (item: CourseSuggestion) => void
+}
+
+function SearchBar({ query, onQueryChange, suggestions, onPickSuggestion }: Props) {
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
   const handleClear = () => {
     onQueryChange('')
     inputRef.current?.focus()
   }
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
       handleClear()
       inputRef.current?.blur()
       return
     }
 
-    if (e.key === 'Enter' && suggestions?.length) {
+    if (e.key === 'Enter' && suggestions.length) {
       e.preventDefault()
       onPickSuggestion?.(suggestions[0])
     }
@@ -35,20 +43,18 @@ function SearchBar({ query, onQueryChange, suggestions, onPickSuggestion }) {
           aria-label="Search courses"
         />
         {query && (
-          <button 
-            className="search-clear" 
-            onClick={handleClear}
-            aria-label="Clear search"
-          >
+          <button className="search-clear" onClick={handleClear} aria-label="Clear search">
             ✕
           </button>
         )}
         <span className="search-count">
-          {query && suggestions?.length ? `${suggestions.length} match${suggestions.length === 1 ? '' : 'es'}` : ''}
+          {query && suggestions.length
+            ? `${suggestions.length} match${suggestions.length === 1 ? '' : 'es'}`
+            : ''}
         </span>
       </div>
 
-      {query.trim() && suggestions?.length > 0 && (
+      {query.trim() && suggestions.length > 0 && (
         <div className="search-suggest" role="listbox" aria-label="Course suggestions">
           {suggestions.map((item) => (
             <div

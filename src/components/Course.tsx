@@ -1,8 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
+import type { CourseSuggestion, MaterialLink } from '../types'
 
-function Course({ name, resources, activeSelection }) {
+type Props = {
+  name: string
+  resources: MaterialLink[]
+  activeSelection: CourseSuggestion | null
+}
+
+function Course({ name, resources, activeSelection }: Props) {
   const [expanded, setExpanded] = useState(false)
-  const buttonRef = useRef(null)
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
     if (!activeSelection?.courseName) return
@@ -22,7 +29,7 @@ function Course({ name, resources, activeSelection }) {
       >
         {name}
       </button>
-      
+
       <div className={`section folder ${expanded ? 'expanded' : 'collapsed'}`}>
         {expanded && (
           <div className="button-grid">

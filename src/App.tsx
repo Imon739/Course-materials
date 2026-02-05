@@ -3,14 +3,15 @@ import SearchBar from './components/SearchBar'
 import TrimesterContainer from './components/TrimesterContainer'
 import ExtraResources from './components/ExtraResources'
 import Footer from './components/Footer'
-import { materials } from './data/materials.js'
+import { materials } from './data/materials'
+import type { CourseSuggestion } from './types'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
-  const [activeSelection, setActiveSelection] = useState(null)
+  const [activeSelection, setActiveSelection] = useState<CourseSuggestion | null>(null)
 
-  const courseIndex = useMemo(() => {
-    const list = []
+  const courseIndex = useMemo<CourseSuggestion[]>(() => {
+    const list: CourseSuggestion[] = []
     Object.entries(materials).forEach(([trimester, courses]) => {
       Object.keys(courses).forEach((courseName) => {
         list.push({
@@ -24,11 +25,11 @@ function App() {
   }, [])
 
   const normalizedQuery = searchQuery.trim().toLowerCase()
-  const suggestions = useMemo(() => {
+
+  const suggestions = useMemo<CourseSuggestion[]>(() => {
     if (!normalizedQuery) return []
 
-    // Simple contains match; keeps UI compact and fast.
-    const results = []
+    const results: CourseSuggestion[] = []
     for (const item of courseIndex) {
       if (item.courseName.toLowerCase().includes(normalizedQuery)) {
         results.push(item)
@@ -40,7 +41,7 @@ function App() {
 
   return (
     <>
-      <SearchBar 
+      <SearchBar
         query={searchQuery}
         onQueryChange={setSearchQuery}
         suggestions={suggestions}
@@ -58,10 +59,7 @@ function App() {
 
       <div className="container reveal">
         <h1>📚 Course Materials</h1>
-        <TrimesterContainer 
-          materials={materials}
-          activeSelection={activeSelection}
-        />
+        <TrimesterContainer materials={materials} activeSelection={activeSelection} />
       </div>
 
       <ExtraResources />

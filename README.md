@@ -10,15 +10,21 @@ This platform provides quick and organized access to both **theory** and **lab**
 
 ## Development
 
-This project is now running on **React + Vite**.
+This project is now running on **React + Vite + TypeScript**.
 
 ```bash
 npm install
 npm run dev
 ```
 
+Optional:
+
+```bash
+npm run typecheck
+```
+
 ## Notes
 
-- Older vanilla files are kept in the `legacy/` folder.
+- Legacy vanilla files were removed after the React + TypeScript migration.
 
 📩 For inquiries, contact: mimon2310084@bscse.uiu.ac.bd

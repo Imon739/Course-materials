@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react'
 import Trimester from './Trimester'
+import type { CourseSuggestion, Materials } from '../types'
 
-function TrimesterContainer({ materials, activeSelection }) {
-  const [expandedTrimesters, setExpandedTrimesters] = useState({})
+type Props = {
+  materials: Materials
+  activeSelection: CourseSuggestion | null
+}
+
+function TrimesterContainer({ materials, activeSelection }: Props) {
+  const [expandedTrimesters, setExpandedTrimesters] = useState<Record<string, boolean>>({})
 
   // Expand the trimester that contains the picked course
   useEffect(() => {
@@ -13,8 +19,8 @@ function TrimesterContainer({ materials, activeSelection }) {
     }))
   }, [activeSelection])
 
-  const toggleTrimester = (trimester) => {
-    setExpandedTrimesters(prev => ({
+  const toggleTrimester = (trimester: string) => {
+    setExpandedTrimesters((prev) => ({
       ...prev,
       [trimester]: !prev[trimester]
     }))
@@ -27,7 +33,7 @@ function TrimesterContainer({ materials, activeSelection }) {
           key={trimester}
           name={trimester}
           courses={courses}
-          expanded={expandedTrimesters[trimester]}
+          expanded={!!expandedTrimesters[trimester]}
           onToggle={() => toggleTrimester(trimester)}
           activeSelection={activeSelection}
         />
