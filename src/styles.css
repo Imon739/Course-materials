@@ -1,0 +1,8 @@
+/* Copy all your existing styles.css content here */
+@import url('../styles.css');
+
+/* Additional React-specific styles */
+.search-container {
+  position: relative;
+  z-index: 10;
+}
