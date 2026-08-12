@@ -49,6 +49,15 @@ function App() {
         </section>
       })}</div> : <div className="empty-state"><p>No course matches &quot;{query}&quot;.</p><button type="button" onClick={() => setQuery('')}>Show all courses</button></div>}
     </section>
+    <section className="suggestions" aria-labelledby="suggestions-title">
+      <p className="section-label">Suggested resources</p>
+      <h2 id="suggestions-title">More ways to study</h2>
+      <div className="suggestion-links">
+        <a href="https://docs.google.com/spreadsheets/d/1UTliZRhDHcRKNKkKnWdNQI-XiEDrxRhWsG0dguoqSEo/htmlview#" target="_blank" rel="noreferrer">UIUSS Notes by Tahsin Parvez <span aria-hidden="true">-&gt;</span></a>
+        <a href="https://nurulalamador.github.io/UIUQuestionBank/index.html" target="_blank" rel="noreferrer">UIU Question Bank by Nurul Alam Ador <span aria-hidden="true">-&gt;</span></a>
+        <a href="https://sayeemzzzaman.hashnode.dev/series/uiu-courses" target="_blank" rel="noreferrer">UIU Course Insights by Sayeem Bin Zaman <span aria-hidden="true">-&gt;</span></a>
+      </div>
+    </section>
     <footer><span>UIU CSE - Community course materials index</span><a href="mailto:mimon2310084@bscse.uiu.ac.bd">Suggest a resource</a></footer>
   </main>
 }
